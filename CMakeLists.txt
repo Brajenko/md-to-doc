@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.16)
 project(md_to_doc)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -39,9 +39,9 @@ add_executable(md_to_doc main.cpp
 )
 
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(duckx CONFIG REQUIRED)
+find_package(Boost REQUIRED COMPONENTS assign)
+target_link_libraries(md_to_doc PRIVATE Boost::assign)
 target_link_libraries(md_to_doc PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(md_to_doc PRIVATE duckx::duckx)
 
 find_package(Catch2 3 REQUIRED)
 include(CTest)
@@ -94,9 +94,11 @@ add_executable(tests tests/elements/test_text.cpp
 
 )
 
+find_package(Catch2 CONFIG REQUIRED)
+
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(tests PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(tests PRIVATE duckx::duckx)
+target_link_libraries(tests PRIVATE Catch2::Catch2 Catch2::Catch2WithMain)
 
 
 
